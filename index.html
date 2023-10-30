@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Grandiflora+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Gugi&display=swap');
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1rem;
+            background-color: #efefd0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            text-align: center;
+            border: 1px solid #dee2e6;
+            font-size: 16px;
+            padding: 15px 15px;
+            font-family: 'Ubuntu', sans-serif;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: max-height 0.8s;
+            max-height: 50px;
+        }
+
+        thead {
+            background-color: #1a659e;
+            color: #efefd0;
+            border-radius: 15px 15px 0 0;
+        }
+
+        td:nth-child(4) {
+            width: 20%;
+        }
+
+        td:nth-child(3) {
+            width: 20%;
+        }
+
+        .soundSet {
+            font-size: 16px;
+            color: #1a659e;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hiddenInfo {
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.8s, opacity 0.8s;
+        }
+
+        tr:hover .hiddenInfo {
+            max-height: 50px;
+            opacity: 1;
+        }
+
+        body {
+            background-color: #efefd0;
+            font-family: 'Ubuntu', sans-serif;
+            margin-bottom: 100px; 
+            margin-top: 77px;
+
+        }
+
+        h2 {
+            color: #1a659e;
+            font-family: 'Ubuntu', sans-serif;
+        }
+        
+        h6 {
+            color: #2f3133;
+            font-family: 'Gugi', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-4">
+        <h2 style="text-align: center;">AmbiBand Data</h2>
+        <h6 style="text-align: center;">확인하고 싶은 사운드 정보에 마우스를 올려보세요</h4>
+            <br>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="text-align: center; padding-top: 5; background-color: #1a659e; color: #efefd0;">Sound Set</th>
+                    <th style="text-align: center; padding-top: 0; background-color: #1a659e; color: #efefd0;">Feeling</th>
+                    <th style="text-align: center; padding-top: 0; background-color: #1a659e; color: #efefd0;">Mood</th>
+                    <th style="text-align: center; padding-top: 0; background-color: #1a659e; color: #efefd0;">User Name</th>
+                    <th style="text-align: center; padding-top: 0; background-color: #1a659e; color: #efefd0;">What</th>
+                    <th style="text-align: center; padding-top: 0; background-color: #1a659e; color: #efefd0;">Where</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- JavaScript로 데이터 가져와서 행 추가 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('https://raw.githubusercontent.com/minj6000/AmbiBand_Data/main/Data.json')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('table-body');
+                for (const key in data) {
+                    const row = `
+                        <tr>
+                            <td class="soundSet" data-toggle="tooltip" title="${data[key].feeling} ${data[key].mood} ${data[key].username} ${data[key].what} ${data[key].where}">${data[key].soundSet}</td>
+                            <td class="hiddenInfo">${data[key].feeling}</td>
+                            <td class="hiddenInfo">${data[key].mood}</td>
+                            <td class="hiddenInfo">${data[key].username}</td>
+                            <td class="hiddenInfo">${data[key].what}</td>
+                            <td class="hiddenInfo">${data[key].where}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                }
+            });
+    </script>
+
+</body>
+
+</html>
